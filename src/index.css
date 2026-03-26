@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: "Press Start 2P", monospace;
+  --font-vt: "VT323", monospace;
+}
+
+body {
+  background-color: #000000;
+  color: #00FFFF;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--font-vt);
+  text-transform: uppercase;
+}
+
+/* Static Noise Overlay */
+.static-noise {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* CRT Scanlines */
+.scanlines {
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
+  background-size: 100% 4px;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Screen Tearing Animation */
+@keyframes tear {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px) skewX(10deg); }
+  21% { transform: translateX(5px) skewX(-10deg); }
+  22% { transform: translateX(0) skewX(0); }
+  80% { transform: translateX(0); }
+  81% { transform: translateX(8px) skewX(20deg); }
+  82% { transform: translateX(-8px) skewX(-20deg); }
+  83% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+.animate-tear {
+  animation: tear 4s infinite;
+}
+
+/* Glitch Text */
+.glitch-text {
+  position: relative;
+  color: #FFFFFF;
+  font-family: var(--font-pixel);
+  display: inline-block;
+}
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+}
+.glitch-text::before {
+  left: 3px;
+  text-shadow: -2px 0 #FF00FF;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  left: -3px;
+  text-shadow: -2px 0 #00FFFF;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(14px, 9999px, 14px, 0); }
+  20% { clip: rect(85px, 9999px, 96px, 0); }
+  40% { clip: rect(12px, 9999px, 59px, 0); }
+  60% { clip: rect(75px, 9999px, 12px, 0); }
+  80% { clip: rect(25px, 9999px, 85px, 0); }
+  100% { clip: rect(45px, 9999px, 35px, 0); }
+}
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  20% { clip: rect(3px, 9999px, 25px, 0); }
+  40% { clip: rect(85px, 9999px, 15px, 0); }
+  60% { clip: rect(45px, 9999px, 75px, 0); }
+  80% { clip: rect(15px, 9999px, 95px, 0); }
+  100% { clip: rect(95px, 9999px, 55px, 0); }
+}
+
+/* Brutalist Box */
+.brutal-box {
+  background-color: #000000;
+  border: 4px solid #00FFFF;
+  box-shadow: 8px 8px 0px #FF00FF;
+  position: relative;
+}
+.brutal-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  box-shadow: inset 0 0 20px rgba(255, 0, 255, 0.2);
+  pointer-events: none;
+}
+.brutal-button {
+  background-color: #000000;
+  color: #00FFFF;
+  border: 2px solid #00FFFF;
+  font-family: var(--font-pixel);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.1s steps(2);
+}
+.brutal-button:hover {
+  background-color: #FF00FF;
+  color: #000000;
+  border-color: #FF00FF;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px #00FFFF;
+}
+.brutal-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #00FFFF;
+}
